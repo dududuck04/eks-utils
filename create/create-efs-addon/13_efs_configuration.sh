@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-. env.sh
+. ./env.sh
 
 aws eks describe-addon-configuration \
     --addon-name ${ADDON_NAME} \

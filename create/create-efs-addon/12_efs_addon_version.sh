@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-. env.sh
+. ./env.sh
 
 aws eks describe-addon-versions --kubernetes-version ${EKS_VERSION} --addon-name ${ADDON_NAME} \
     --query 'addons[].addonVersions[].{Version: addonVersion, Defaultversion: compatibilities[0].defaultVersion}' --output table \

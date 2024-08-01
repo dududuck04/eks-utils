@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-. env.sh
+. ./env.sh
 
 cat >aws-efs-csi-driver-trust-policy.json<<EOF
 {

@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #
-. env.sh
+. ./env.sh
 
 aws eks describe-cluster --name $EKS_CLUSTER_NAME \
     --query "cluster.identity.oidc.issuer" \
