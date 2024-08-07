@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[ -f "aws-auth" ] && rm -rf aws-auth.yaml
+[ -f "aws-auth.yaml" ] && rm -rf aws-auth.yaml && echo "delete success"
 
 kubectl get configmap aws-auth -n kube-system -o yaml > aws-auth.yaml
 
