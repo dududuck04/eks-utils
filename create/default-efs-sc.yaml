@@ -1,8 +1,3 @@
-#!/bin/bash
-
-FILE_SYSTEM=fs-09279c93804ebd792
-# =========================================
-cat > default-efs-sc.yaml <<EOF
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -11,10 +6,9 @@ mountOptions:
 - iam
 parameters:
   directoryPerms: "700"
-  fileSystemId: ${FILE_SYSTEM}
+  fileSystemId: fs-09279c93804ebd792
   provisioningMode: efs-ap
 provisioner: efs.csi.aws.com
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
 allowVolumeExpansion: true
-EOF
