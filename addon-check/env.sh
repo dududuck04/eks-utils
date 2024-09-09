@@ -1,4 +1,4 @@
 #!/bin/bash
 
-EKS_VERSION=1.30
-REGION_NAME=ap-northeast-1
+EKS_VERSION=1.29
+REGION_NAME=eu-central-1
