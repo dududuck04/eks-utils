@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE_SYSTEM=fs-09279c93804ebd792
+FILE_SYSTEM=fs-0a1af014de9113eb8
 # =========================================
 cat > default-efs-sc.yaml <<EOF
 apiVersion: storage.k8s.io/v1
