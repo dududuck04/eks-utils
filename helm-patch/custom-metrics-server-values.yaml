@@ -1,0 +1,67 @@
+// helm repo update
+
+
+# helm default value 확인
+// helm pull metrics-server/metrics-server --untar
+
+
+replicas: 2  # 고가용성 설정을 위해 replicas를 2로 설정
+
+image:
+  repository: ".dkr.ecr.ap-northeast-2.amazonaws.com/eks/metrics-server"
+  tag: "v0.7.1"
+
+args:
+  - --cert-dir=/tmp
+  - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+  - --kubelet-use-node-status-port
+  - --metric-resolution=15s
+  - --kubelet-insecure-tls
+
+# Fargate 사용 시 주석 해제 - ContainerPort 변경 필요
+# containerPort: 4443
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "200Mi"
+  limits:
+    cpu: "150m"
+    memory: "250Mi"
+
+# Fargate Fluent Bit Logging 제외 설정
+# podAnnotations:
+#   fluentbit.io/exclude: "true"
+
+labels: {}
+
+affinity: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+# 고가용성을 위한 업데이트 전략 추가
+updateStrategy:
+  rollingUpdate:
+    maxUnavailable: 1  # 한 번에 하나의 파드만 비활성화 가능
+
+# Pod Disruption Budget 추가
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1  # 최소 한 개의 파드가 항상 유지되도록 보장
+
+
+# metrics server helm repo add
+// helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+
+helm upgrade metrics-server metrics-server/metrics-server \
+  --namespace kube-system \
+  --values custom-metrics-server-values.yaml
+
+
+# 확인
+kubectl describe deployment metrics-server -n kube-system
+
+kubectl get pdb -n kube-system
+kubectl describe pdb metrics-server -n kube-system

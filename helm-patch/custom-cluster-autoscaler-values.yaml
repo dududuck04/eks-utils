@@ -1,0 +1,48 @@
+replicaCount: 1
+
+#image:
+#  repository: "024848465737.dkr.ecr.ap-northeast-2.amazonaws.com/eks/cluster-autoscaler"
+#  tag: "v1.30.0"
+#  pullPolicy: IfNotPresent
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "100Mi"
+  limits:
+    cpu: "100m"
+    memory: "100Mi"
+
+rbac:
+  create: true
+  serviceAccount:
+    create: true
+    name: "cluster-autoscaler-sa"
+    automountServiceAccountToken: true
+    annotations:
+      eks.amazonaws.com/role-arn: <AWS_ROLE_ARN>  # 생성한 IAM 역할 ARN을 여기에 입력하세요.
+
+autoDiscovery:
+  clusterName: <CLUSTER_NAME>  # EKS 클러스터 이름
+  tags:
+    - k8s.io/cluster-autoscaler/enabled
+    - k8s.io/cluster-autoscaler/{{ .Values.autoDiscovery.clusterName }}
+
+cloudProvider: aws
+awsRegion: ap-northeast-2
+
+extraArgs:
+  logtostderr: true
+  stderrthreshold: info
+  v: 4
+  balance-similar-node-groups: true  # 멀티 AZ 환경일 경우
+
+extraVolumes:
+  - name: ssl-certs
+    hostPath:
+      path: /etc/ssl/certs/ca-bundle.crt
+
+extraVolumeMounts:
+  - name: ssl-certs
+    mountPath: /etc/ssl/certs/ca-certificates.crt
+    readOnly: true

@@ -1,4 +1,4 @@
 #!/bin/bash
 
-PROFILE_NAME=ccs2-br-hmc-prd
-REGION_NAME=sa-east-1
+PROFILE_NAME=
+REGION_NAME=

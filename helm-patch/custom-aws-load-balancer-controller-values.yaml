@@ -1,0 +1,61 @@
+replicaCount: 2
+
+#image:
+#  repository: "024848465737.dkr.ecr.ap-northeast-2.amazonaws.com/eks/aws-load-balancer-controller"
+#  tag: "v2.8.3"
+#  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  annotations:
+    eks.amazonaws.com/role-arn: ${iam_role_arn}
+  name: alb-controller-sa
+
+clusterName: ${eks_cluster_name}
+region: ap-northeast-2
+
+shield:
+  enabled: true
+waf:
+  enabled: true
+wafv2:
+  enabled: true
+
+serviceMonitor:
+  enabled: false
+
+resources:
+  requests:
+    cpu: "70m"
+    memory: "70Mi"
+  limits:
+    cpu: "100m"
+    memory: "150Mi"
+
+# The VPC ID for the Kubernetes cluster
+vpcId: ${vpc_id}
+
+podDisruptionBudget:
+  minAvailable: 1
+
+nodeSelector:
+  disktype: ssd
+
+tolerations:
+  - key: "node.kubernetes.io/unreachable"
+    operator: "Exists"
+    effect: "NoExecute"
+    tolerationSeconds: 6000
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: "kubernetes.io/sample-az-name"
+              operator: "In"
+              values:
+                - "sample-az1"
+                - "sample-az2"
+
+topologySpreadConstraints: {}

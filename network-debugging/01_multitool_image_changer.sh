@@ -1,6 +1,6 @@
 #!/bin/bash
-AWS_REPO_ACCOUNT=539666729110
-AWS_REPO_PROFILE=cnp-key
+AWS_REPO_ACCOUNT=
+AWS_REPO_PROFILE=
 AWS_REGION=ap-northeast-1
 AWS_ECR_REPO_NAME=praqma/network-multitool
 

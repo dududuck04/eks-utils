@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pause-pods-prefix
+  namespace: default
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      run: pause-pods-prefix
+  template:
+    metadata:
+      labels:
+        run: pause-pods-prefix
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+        - name: reserve-resources
+          image: registry.k8s.io/pause
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: pause-pods-prefix-pdb
+  namespace: default
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      run: pause-pods-prefix
+

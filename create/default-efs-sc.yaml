@@ -6,7 +6,7 @@ mountOptions:
 - iam
 parameters:
   directoryPerms: "700"
-  fileSystemId: fs-09279c93804ebd792
+  fileSystemId: fs-
   provisioningMode: efs-ap
 provisioner: efs.csi.aws.com
 reclaimPolicy: Retain
